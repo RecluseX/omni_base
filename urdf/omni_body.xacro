@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<robot name="sirius" xmlns:xacro="http://ros.org/wiki/xacro">
+	<property name="M_PI" value="3.14159"/>
+	
+	<include filename="$(find omni_base)/urdf/omni_base_gazebo.xacro"/>
+
+	<property name="base_radius" value="0.2"/>
+	<property name="base_len" value="0.3"/>
+	<property name="wheel_radius" value="0.08"/>
+	<property name="wheel_len" value="0.03"/>
+	
+	<material name="red">
+		<color rgba="0.8 0 0 1"/>
+	</material>
+	<material name="green">
+		<color rgba="0 0.8 0 1"/>
+	</material>
+	<material name="blue">
+		<color rgba="0 0 0.8 1"/>
+	</material>
+	<material name="black">
+		<color rgba="0 0 0 1"/>
+	</material>
+	<material name="white">
+		<color rgba="1 1 1 1"/>
+	</material>
+
+	<xacro:macro name="default_intertial" params="mass">
+		<inertial>
+			<origin xyz="0 0 0"/>
+			<mass value="${mass}"/>
+			<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+		</inertial>
+	</xacro:macro>
+
+	<xacro:macro name="omni_body">
+
+		<link name="base_link">
+			<visual>
+				<geometry>
+					<cylinder length="${base_len}" radius="${base_radius}"/>
+				</geometry>
+				<material name="red"/>
+			</visual>
+			<collision>
+				<geometry>
+					<cylinder length="0.2" radius="0.2"/>
+				</geometry>
+			</collision>
+			<inertial>
+				<mass value="10"/>
+				<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+			</inertial>
+		</link>
+
+		<link name="front_wheel">
+			<visual>
+				<origin rpy="0 1.57 0" xyz="0 0 0"/>
+				<geometry>
+					<cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+				</geometry>
+				<material name="black"/>
+			</visual>
+			<collision>
+				<origin rpy="0 1.57 0" xyz="0 0 0"/>
+				<geometry>
+					<cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+				</geometry>
+			</collision>
+			<inertial>
+				<origin rpy="0 1.57 0" xyz="0 0 0"/>
+				<mass value="10"/>
+				<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+			</inertial>
+		</link>
+	
+		<link name="left_wheel">
+			<visual>
+				<origin rpy="0 1.57 2.09" xyz="0 0 0"/>
+				<geometry>
+					<cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+				</geometry>
+				<material name="white"/>
+			</visual>
+			<collision>
+				<origin rpy="0 1.57 2.09" xyz="0 0 0"/>
+				<geometry>
+					<cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+				</geometry>
+			</collision>
+			<inertial>
+				<origin xyz="0 0 0"/>
+				<mass value="10"/>
+				<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+			</inertial>
+		</link>
+	
+		<link name="right_wheel">
+			<visual>
+				<origin rpy="0 1.57 -2.09" xyz="0 0 0"/>
+				<geometry>
+					<cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+				</geometry>
+				<material name="blue"/>
+			</visual>
+			<collision>
+				<origin rpy="0 1.57 -2.09" xyz="0 0 0"/>
+				<geometry>
+					<cylinder length="${wheel_len}" radius="${wheel_radius}"/>
+				</geometry>
+			</collision>
+			<inertial>
+				<origin xyz="0 0 0"/>
+				<mass value="10"/>
+				<inertia ixx="1.0" ixy="0.0" ixz="0.0" iyy="1.0" iyz="0.0" izz="1.0"/>
+			</inertial>
+		</link>
+
+		<joint name="base_to_front_wheel" type="fixed">
+			<parent link="base_link"/>
+			<child link="front_wheel"/>
+			<origin rpy="0 0 0" xyz="0.2 0 -0.08"/>
+		</joint>
+
+		<joint name="base_to_left_wheel" type="fixed">
+			<parent link="base_link"/>
+			<child link="left_wheel"/>
+			<origin rpy="0 0 0" xyz="-0.1 0.1732 -0.08"/>
+		</joint>
+
+		<joint name="base_to_right_wheel" type="fixed">
+			<parent link="base_link"/>
+			<child link="right_wheel"/>
+			<origin rpy="0 0 0" xyz="-0.1 -0.1732 -0.08"/>
+		</joint>
+
+	</xacro:macro>
+
+</robot>
