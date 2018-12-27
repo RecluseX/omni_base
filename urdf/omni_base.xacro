@@ -21,8 +21,9 @@
 	<xacro:omni_base_sim/>
 
 	<!-- Laser  -->
-	<xacro:include filename="$(find gazebo_plugins)/test/multi_robot_scenario/xacro/laser/hokuyo.xacro"/>
-	<xacro:laser name="base_laser" parent="base_link" xyz="0.16 0 0.2" rpy="0 0 0" meshes="package://gazebo_plugins/test/multi_robot_scenario/meshes/laser"/>
+	<xacro:include filename="$(find omni_base)/urdf/omni_laser.xacro"/>
+	<xacro:omni_laser name="base_laser" parent="base_link" xyz="0.16 0 0.2" rpy="0 0 0" meshes="package://gazebo_plugins/test/multi_robot_scenario/meshes/laser"/>
+
 
 
 </robot>

@@ -1,10 +1,8 @@
 <?xml version="1.0"?>
 
-<!--hokuyo-->
-
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:macro name="laser" params="name parent xyz rpy meshes">
+<xacro:macro name="omni_laser" params="name parent xyz rpy meshes">
 
 	<link name="${name}">
 		<visual>
@@ -54,9 +52,8 @@
 		</ray>
 
 		<plugin name="laser" filename="libgazebo_ros_laser.so" >
-			<robotNamespace></robotNamespace>
-			<topicName>${name}/scan</topicName>
-			<frameName>${name}</frameName>
+			<topicName>/scan</topicName>
+			<frameName>base_laser</frameName>
 		</plugin>
 		<!--
 		<plugin name="laser" filename="libRayPlugin.so" />
@@ -67,5 +64,6 @@
         	<visualize>true</visualize>
         	</sensor>
 	</gazebo>
-
 </xacro:macro>
+
+</robot>

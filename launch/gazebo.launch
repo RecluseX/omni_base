@@ -1,19 +1,31 @@
 <?xml version="1.0"?>
 <launch>
+	<arg name="robot_name" default="sirius" />
+	<arg name="robot_position" default="-x 0.0 -y 0.0 -z 0.01" />
 	<param name="use_sim_time" value="true"/>
+
+	<!-- gazebo -->
 	<include file="$(find gazebo_ros)/launch/empty_world.launch"/>
 
-	<arg name="model"/>
-	<param name="robot_description" command="$(find xacro)/xacro.py $(arg model)"/>
-	
-	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-        </node>
+	<!-- robot model -->	
 
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
-                <param name="publisher_frequency" type="double" value="20.0"/>
-        </node>
+	<!-- Load the URDF into the ROS Parameter Server -->
+	<param name="robot_description" command="$(find xacro)/xacro.py '$(find omni_base)/urdf/omni_base.xacro'" />
 	
-	<param name="publish_frequency" type="double" value="50.0"/>
+	<!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+	<node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen" args="-urdf -model robot_model -param robot_description $(arg robot_position) "/>
 
-	<node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -z 0.1 -model robot_model" respawn="false" output="screen" />
+	<!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/-->
+
+	<node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher">
+		<param name="publish_frequency" type="double" value="30.0"/>
+		<!--param name="tf_prefix" type="string" value="$(arg robot_name)"/-->
+	</node>
+
+	<node pkg="tf" type="static_transform_publisher" name="base_to_odom" args="0.0 -0.0 0.0 0.0 0.0 0.0 base_link odom 200" />
+
+
+	<!-- rviz -->
+	<node pkg="rviz" type="rviz" name="rviz"/>
+
 </launch>
