@@ -1,5 +1,5 @@
 <launch>
-	<arg name="model" default="$(find omni_base)/urdf/omni_base.xacro"/>
+	<arg name="model" default="$(find omni_base)/urdf/omni_base.urdf"/>
 	<arg name="gui" default="true"/>
 	
 	<param name="robot_description" command="$(find xacro)/xacro.py $(arg model)"/>
@@ -11,10 +11,6 @@
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
 		<param name="publisher_frequency" type="double" value="20.0"/>
 	</node>
-
-	<node pkg="tf" type="static_tramsform_publisher" name="odom_front_wheel_broadcaster" args="0 0 0 0 0 0 0 /base_link /front_wheel 100"/>
-	<node pkg="tf" type="static_tramsform_publisher" name="odom_left_wheel_broadcaster" args="0 0 0 0 0 0 0 /base_link /left_wheel 100"/>
-	<node pkg="tf" type="static_tramsform_publisher" name="odom_right_wheel_broadcaster" args="0 0 0 0 0 0 0 /base_link /right_wheel 100"/>
 
 	<node name="rviz" pkg="rviz" type="rviz" required="true"/>
 </launch>

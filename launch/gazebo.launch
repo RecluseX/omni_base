@@ -22,8 +22,9 @@
 		<!--param name="tf_prefix" type="string" value="$(arg robot_name)"/-->
 	</node>
 
-	<node pkg="tf" type="static_transform_publisher" name="base_to_odom" args="0.0 -0.0 0.0 0.0 0.0 0.0 base_link odom 200" />
+	<!--node pkg="tf" type="static_transform_publisher" name="base_to_odom" args="0.0 -0.0 0.0 0.0 0.0 0.0 base_link odom 200" /-->
 
+	<node pkg="omni_base" type="base_control_node" name="base_control_node" output="screen"/>
 
 	<!-- rviz -->
 	<node pkg="rviz" type="rviz" name="rviz"/>
